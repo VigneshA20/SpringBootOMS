@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base::layout(~{::section})}">
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+
+
+
+<body>
+
+	<section>
+		<div class="container-fluid mt-5 p-1">
+			<div class="card card-sh">
+				<div class="card-header">
+					<p class="fs-4 text-center">My Cart</p>
+					<th:block th:if="${session.successMsg}">
+						<p class="text-success fw-bold text-center">[[${session.successMsg}]]</p>
+						<th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+					</th:block>
+					<th:block th:if="${session.errorMsg}">
+						<p class="text-danger fw-bold text-center">[[${session.errorMsg}]]</p>
+						<th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+					</th:block>
+
+				</div>
+				<div class="card-body">
+					<table class="table">
+						<thead>
+							<tr class="text-center">
+								<th scope="col">SI No.</th>
+								<th scope="col">Image</th>
+								<th scope="col">Product Name</th>
+								<th scope="col">Price</th>
+								<th scope="col">Quantity</th>
+								<th scope="col">Total Price</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="text-center" th:each="cart,c:${carts}">
+								<th scope="row">[[${c.count}]]</th>
+								<td><img th:src="@{'/images/'+${cart.product.image}}" width="70px" height="70px"></td>
+								<td>[[${cart.product.name}]]</td>
+								<td>[[${cart.product.price}]]</td>
+								<td class="text-center"> <a th:href="@{'/user/cartQuantityUpdate?sy=de&cid='+${cart.id}}"> <i class="fa-solid fa-minus mx-1"></i> </a> [[${cart.quantity}]] <a th:href="@{'/user/cartQuantityUpdate?sy=in&cid='+${cart.id}}"> <i class="fa-solid fa-plus mx-1"></i> </a></td>
+								<td> &#8377; [[${cart.totalPrice}]]</td>
+
+								<tr>
+									<td colspan="4">
+										<td class="fw-bold text-center">
+											Total Price
+										</td>
+										<td class="fw-bold text-center">
+											&#8377; [[${totalOrderPrice}]]
+										</td>
+										
+									</td>
+									
+								</tr>
+								
+							</tr>
+							
+						</tbody>
+					</table>
+					<div class="d-grid gap-3 d-md-flex justify-content-md-end " style="margin-right: 30px;">
+					  <a href="/user/orders" class="btn btn-primary text-light me-md-2 px-5" type="button">Checkout</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+</body>
+
+</html>
