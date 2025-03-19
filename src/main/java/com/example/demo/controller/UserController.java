@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.model.Cart;
 import com.example.demo.model.Category;
@@ -44,15 +45,12 @@ public class UserController {
 	private CartService cartService;
 	
 	
-	
 	@Autowired
 	private OrderService orderService;
 	
 	
-
 	@Autowired
 	private CommonUtil commonUtil;
-	
 	
 	
 	@GetMapping("/")
@@ -112,7 +110,6 @@ public class UserController {
 		
 		if(carts.size() > 0)
 		{
-		
 			Double totalOrderPrice = carts.get(carts.size()-1).getTotalOrderPrice();
 			m.addAttribute("totalOrderPrice", totalOrderPrice);
 		}
@@ -257,7 +254,29 @@ public class UserController {
 	
 	
 	
+	@GetMapping("/profile")
+	public String profile()
+	{
+		return "/user/profile";
+	}
 	
 	
+	
+	
+	
+	
+	
+	
+	@PostMapping("/update-profile")
+	public String updateProfile(@ModelAttribute User user, HttpSession session) {
+		User updateUserProfile = userService.updateUserProfile(user);
+		if (ObjectUtils.isEmpty(updateUserProfile)) {
+			session.setAttribute("errorMsg", "Profile not updated");
+		} else {
+			session.setAttribute("successMsg", "Profile Updated");
+		}
+		return "redirect:/user/profile";
+	}
+
 	
 }
