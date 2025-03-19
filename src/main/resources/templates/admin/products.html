@@ -15,6 +15,7 @@
 			<div class="card card-sh">
 				<div class="card-header">
 					<p class="fs-4 text-center">View Products</p>
+					<a href="/admin/" class="text-decoration-none fw-bold"><i class="fa-solid fa-arrow-left"></i> Back</a>
 					<th:block th:if="${session.successMsg}">
 						<p class="text-success fw-bold text-center">[[${session.successMsg}]]</p>
 						<th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
